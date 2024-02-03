@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 import requests
 import xml.etree.ElementTree as et
+from zeep import Client
 
 app = FastAPI()
 
@@ -40,3 +41,10 @@ async def root():
     root = et.fromstring(response.text)
     resultado = root.find(".//emailAddress").text
     return resultado
+
+@app.get("/soap2")
+async def root(intA, intB):
+    url = "http://www.dneonline.com/calculator.asmx?WSDL"
+    client = Client(url)
+    response = client.service.Add(intA, intB)
+    return response
