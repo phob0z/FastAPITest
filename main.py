@@ -43,8 +43,8 @@ async def root():
     return resultado
 
 @app.get("/soap2")
-async def root(intA, intB):
+async def root(intA: int, intB: int):
     url = "http://www.dneonline.com/calculator.asmx?WSDL"
     client = Client(url)
-    response = client.service.Add(intA, intB)
+    response = client.service.Add(intA=intA, intB=intB)
     return response
