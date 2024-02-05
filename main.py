@@ -4,10 +4,33 @@ import xml.etree.ElementTree as et
 from zeep import Client, Settings
 
 app = FastAPI()
+pu = "https://mingle-sso.inforcloudsuite.com:443/MF5A2WL57LSB5PPE_DEM/as/"
+oa_auth = "authorization.oauth2"
+# or_revoke = "revoke_token.oauth2"
+ot_token = "token.oauth2"
+ci = "MF5A2WL57LSB5PPE_DEM~4m-IoYSoOGLQUrO0kIYPO4TdshOFPu7AU_Ij9R9jvHI"
+cs = "G1iyuaIlfIOUc6IYB_dR9VHvJymcNTztkJrkkv7WUJX1JbSTIREbHIimURVLgMxNAwG9akP2HL-q-OfZY5tmqw"
+username = "MF5A2WL57LSB5PPE_DEM#-xXOpRWOaqJWHruRAs2Ms6JcpOOGtMkTuvPzVAJ-OdxiJJB5iBNY3LYzk4wXbHQr558rQgMBkDJSw3OV6bHSsA"    #saak
+password = "S1FLYIjvIpR7smX9NOElFFrxKP1VcbAPb1goDrE0zTQ4-FqBfU0DiC8AZCWMD1ZTKIea2PgoUDBBoq5PE98jIQ"                         #sask
+autorizationTokenURL = pu + oa_auth
+accessTokenURL = pu + ot_token
+refreshTokenURL = pu + ot_token
+redirectURi = "https://fast-api-test-sage.vercel.app/"
+# authorizationServer = "https://mingle-sso.inforcloudsuite.com:443/MF5A2WL57LSB5PPE_DEM/as/authorization.oauth2"             #pu + oa
 
 @app.get("/")
 async def root():
-    return {"Hello": "World"}
+    # redirect_uri: encodeURIComponent(settings.redirectUri),
+    # scope:‘offline_access’,
+    # refresh_token:req.user.refresh_token
+    # ‘Cache-Control’: ‘no-cache’,
+    # ‘grant_type’:‘refresh_token’,
+    headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json", "Authorization": "Basic " + ci + cs}
+    # access_token = requests.get(url = accessTokenURL + "?grant_type=password&client_id=" + ci + "&client_secret=" + cs, headers=headers).text#json()["access_token"]
+    access_token = requests.get(url = autorizationTokenURL + "?grant_type=password&client_id=" + ci + "&redirect_uri=https://fast-api-test-sage.vercel.app/" + + "&response_type=code", headers=headers).text#json()["access_token"]
+    print(access_token)
+    #requests.get(authorizationServer, params={client_id: "MF5A2WL57LSB5PPE_DEM~RvgYv88ONiYVwjTMhZpjnlVdatxcWKe2VT9gF_eaM7A",redirect_uri: ,response_type:code})
+    return {"hola": "mundo"}
 
 @app.get("/algo")
 async def root():
