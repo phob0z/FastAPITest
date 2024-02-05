@@ -30,7 +30,7 @@ async def root():
     access_token = requests.get(url = autorizationTokenURL + "?grant_type=password&client_id=" + ci + "&redirect_uri=https://fast-api-test-sage.vercel.app/" + "&response_type=code", headers=headers).text#json()["access_token"]
     print(access_token)
     #requests.get(authorizationServer, params={client_id: "MF5A2WL57LSB5PPE_DEM~RvgYv88ONiYVwjTMhZpjnlVdatxcWKe2VT9gF_eaM7A",redirect_uri: ,response_type:code})
-    return {"hola": "mundo"}
+    return {access_token}
 
 @app.get("/algo")
 async def root():
